@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './main/index.css';
-import App from './main/Pages/App';
+import {ExchangePage} from './main/pages/ExchangePage';
 
 ReactDOM.render(
     <React.StrictMode>
-      <App/>
+      <ExchangePage/>
     </React.StrictMode>,
     document.getElementById('root')
 );
