@@ -1,5 +1,9 @@
-.jopa {
+.header_container {
     display: flex;
     justify-content: space-between;
     background-color: green;
+    position: fixed;
+    top: 0;
+    min-width: inherit;
+    width: 100%;
 }

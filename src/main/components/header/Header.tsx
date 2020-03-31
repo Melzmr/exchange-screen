@@ -1,18 +1,22 @@
 import React from 'react';
 import './Header.css';
 
-export function Header() {
+export const Header = () => {
   return (
-      <header className="jopa">
-        <div>
-          {'Cancel'}
-        </div>
-        <div>
-          {'Pockets'}
-        </div>
-        <div>
-          {'Exchange'}
-        </div>
-      </header>
+      <div style={{height: '18px'}}>
+        <header className="header_container">
+          <div>
+            {'Cancel'}
+          </div>
+          <div>
+            {'Pockets'}
+          </div>
+          <div>
+            {'Exchange'}
+          </div>
+        </header>
+      </div>
   )
-}
+};
+
+Header.displayName = 'Header';
