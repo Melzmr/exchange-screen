@@ -6,3 +6,8 @@
     background-color: white;
     min-width: 320px;
 }
+
+.hui {
+    display: flex;
+    flex: 1 0 auto;
+}

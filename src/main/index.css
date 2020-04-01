@@ -1,11 +1,12 @@
 @import '~normalize.css';
+@import '~react-responsive-carousel/lib/styles/carousel.min.css';
 
 html {
     height: 100%;
 }
 
 body {
-    background-color: red;
+    background-color: grey;
     min-height: 100%;
     color: black;
     display: flex;
@@ -22,4 +23,16 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
+}
+
+.carousel .control-dots {
+    padding: 0;
+}
+
+.carousel .slider-wrapper {
+    height: 100%;
+}
+
+.carousel .slider-wrapper.axis-horizontal .slider {
+    height: 100%;
 }
