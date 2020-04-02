@@ -9,7 +9,10 @@ export interface IInputBlockProps {
 export const InputBlock = ({style}: IInputBlockProps) => {
   return (
       <div className="input_container">
-        <div style={{...style, width: '100%'}}>
+        <div
+            className="carousel_child"
+            style={{...style, width: '100%'}}
+        >
           123123123123
         </div>
         {/*<Input/>*/}

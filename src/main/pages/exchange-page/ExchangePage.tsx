@@ -10,10 +10,10 @@ import {LoadingPage} from '../loading-page/LoadingPage';
 export const ExchangePage = () => {
   const [{data, loading, errored}] = useExchangeRateApi();
 
-  if (loading) {
+  if (loading || !data) {
     return (
         <LoadingPage>
-          {'Loading mazafucka'}
+          {'Loading'}
         </LoadingPage>
     )
   }
@@ -26,17 +26,15 @@ export const ExchangePage = () => {
     )
   }
 
-  console.log(data);
-
   return (
       <div className="page_container">
         <Header/>
-        <ScrollableBlock className="hui">
+        <ScrollableBlock>
           <InputBlock style={{backgroundColor: 'blue'}}/>
           <InputBlock style={{backgroundColor: 'red'}}/>
           <InputBlock style={{backgroundColor: 'yellow'}}/>
         </ScrollableBlock>
-        <ScrollableBlock className="hui">
+        <ScrollableBlock>
           <InputBlock style={{backgroundColor: 'blue'}}/>
           <InputBlock style={{backgroundColor: 'red'}}/>
           <InputBlock style={{backgroundColor: 'yellow'}}/>

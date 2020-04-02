@@ -36,3 +36,20 @@ body {
 .carousel .slider-wrapper.axis-horizontal .slider {
     height: 100%;
 }
+
+.carousel .slide .carousel_child {
+    width: 100%;
+    vertical-align: top;
+    border: 0;
+}
+
+.carousel .carousel_child {
+    width: 100%;
+    display: inline-block;
+    pointer-events: none;
+}
+
+.responsive_block {
+    display: flex;
+    flex: 1 0 auto;
+}

@@ -13,7 +13,7 @@ export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, clas
           emulateTouch={true}
           showThumbs={false}
           showStatus={false}
-          className={className}
+          className="responsive_block"
       >
         {children}
       </Carousel>
