@@ -1,5 +1,6 @@
 import {initialAppState} from '../createStore';
 import {ADD_MONEY, pocketsTypes, SUBTRACT_MONEY} from '../actions/pocketsTypes';
+import {formatNumber} from '../calculation-utils';
 
 export interface IPocket {
   name: string;
@@ -18,7 +19,7 @@ export const reducePockets = (state: IPocketsState = initialAppState.pockets, ac
         ...state,
         [action.payload.name]: {
           ...action.payload,
-          value: state[action.payload.name].value + action.payload.value,
+          value: formatNumber(state[action.payload.name].value + action.payload.value),
         },
       };
     case SUBTRACT_MONEY:
@@ -26,7 +27,7 @@ export const reducePockets = (state: IPocketsState = initialAppState.pockets, ac
         ...state,
         [action.payload.name]: {
           ...action.payload,
-          value: state[action.payload.name].value - action.payload.value,
+          value: formatNumber(state[action.payload.name].value - action.payload.value),
         },
       };
     default:

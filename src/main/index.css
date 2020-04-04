@@ -24,12 +24,6 @@ body {
     flex: 1 0 auto;
 }
 
-.responsive_block {
-    display: flex;
-    flex: 1 0 auto;
-    position: relative;
-}
-
 .triangle::after {
     width: 0;
     height: 0;
@@ -49,3 +43,28 @@ body {
 .slick-dots li button:before, .slick-dots li.slick-active button:before {
     color: white;
 }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: inherit;
+}
+
+button:focus, input:focus {
+    outline: none;
+}
+
+

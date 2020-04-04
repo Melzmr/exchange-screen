@@ -14,7 +14,7 @@ export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, clas
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    className: `responsive_block ${className ? className : ''}`,
+    className: `${className ? className : ''}`,
     accessibility: true,
     arrows: false,
   };

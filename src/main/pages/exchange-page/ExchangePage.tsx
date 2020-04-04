@@ -72,6 +72,8 @@ export const ExchangePage = () => {
     )
   }
 
+  const crossRate = formatNumber(data.rates[selectedTop.name] / data.rates[selectedBottom.name], 4);
+
   const updateTopAmount = (pocket: IPocket) => {
     const topRate = data.rates[selectedTop.name];
     const botRate = data.rates[selectedBottom.name];
@@ -151,13 +153,14 @@ export const ExchangePage = () => {
             exchangeOnClick={handleExchangeClick}
             selectedTop={selectedTop}
             selectedBottom={selectedBottom}
-            crossRate={formatNumber(data.rates[selectedTop.name] / data.rates[selectedBottom.name], 4)}
+            crossRate={crossRate}
             disabled={!amountTop || !amountBottom}
         />
 
         <ScrollableBlock
             afterChange={handleChangeTopPocket}
             beforeChange={resetAmounts}
+            className="input_container_top"
         >
           {pockets.map((pocket, i) => (
               <InputBlock
@@ -167,14 +170,13 @@ export const ExchangePage = () => {
                   onAmountChange={handleTopAmountChange}
                   error={topError}
                   amountPrefix={'-'}
-                  className="input_container_top"
               />
           ))}
         </ScrollableBlock>
         <ScrollableBlock
             afterChange={handleChangeBottomPocket}
             beforeChange={resetAmounts}
-            className="triangle"
+            className="triangle input_container_bottom"
         >
           {pockets.map((pocket, i) => (
               <InputBlock
@@ -184,7 +186,18 @@ export const ExchangePage = () => {
                   onAmountChange={handleBottomAmountChange}
                   error={bottomError}
                   amountPrefix={'+'}
-                  className="input_container_bottom"
+                  bottomLabel={(
+                      <>
+                        <span className="">
+                          {selectedTop.currency}
+                        </span>
+                        {'1 = '}
+                        <span className="">
+                          {selectedBottom.currency}
+                        </span>
+                        {crossRate}
+                      </>
+                  )}
               />
           ))}
         </ScrollableBlock>
