@@ -30,6 +30,8 @@ export const ExchangePage = () => {
   const [amountTop, setAmountTop] = React.useState<number | ''>('');
   const [amountBottom, setAmountBottom] = React.useState<number | ''>('');
   const [lastTouched, setLastTouched] = React.useState<LastTouched>(LastTouched.TOP);
+  const [topError, setTopError] = React.useState<string>();
+  const [bottomError, setBottomError] = React.useState<string>();
 
   React.useEffect(() => {
         const abortFetch = setPollingFetch(() => fetchExchangeRateApi(dispatch), 10000);
@@ -41,9 +43,15 @@ export const ExchangePage = () => {
   React.useEffect(() => {
     if (amountTop && amountBottom) {
       if (lastTouched === LastTouched.BOTTOM) {
-        setAmountTop(amountTop * 2);
+        updateTopAmount({
+          ...selectedBottom,
+          value: amountBottom,
+        });
       } else {
-        setAmountBottom(amountBottom * 3);
+        updateBottomAmount({
+          ...selectedTop,
+          value: amountTop
+        });
       }
     }
   }, [data]);
@@ -64,6 +72,30 @@ export const ExchangePage = () => {
     )
   }
 
+  const updateTopAmount = (pocket: IPocket) => {
+    const topRate = data.rates[selectedTop.name];
+    const botRate = data.rates[selectedBottom.name];
+    if (topRate === botRate) {
+      setAmountTop(pocket.value);
+    } else if (pocket.name === data.base) {
+      setAmountTop(pocket.value * topRate);
+    } else {
+      setAmountTop(formatNumber(pocket.value * botRate / topRate))
+    }
+  };
+
+  const updateBottomAmount = (pocket: IPocket) => {
+    const topRate = data.rates[selectedTop.name];
+    const botRate = data.rates[selectedBottom.name];
+    if (topRate === botRate) {
+      setAmountBottom(pocket.value);
+    } else if (pocket.name === data.base) {
+      setAmountBottom(pocket.value * botRate);
+    } else {
+      setAmountBottom(formatNumber(pocket.value * topRate / botRate));
+    }
+  };
+
   const handleChangeTopPocket = (slide: number) => {
     resetAmounts();
     setSelectedTop(pockets[slide]);
@@ -77,34 +109,20 @@ export const ExchangePage = () => {
   const handleTopAmountChange = (pocket: IPocket | '') => {
     setLastTouched(LastTouched.TOP);
     if (pocket) {
-      const topRate = data.rates[selectedTop.name];
-      const botRate = data.rates[selectedBottom.name];
-      setAmountBottom(
-          topRate === botRate
-              ? pocket.value
-              : formatNumber(pocket.value * topRate / botRate)
-      );
+      updateBottomAmount(pocket);
       setAmountTop(pocket.value);
     } else {
-      setAmountTop(pocket);
-      setAmountBottom(pocket);
+      resetAmounts();
     }
   };
 
   const handleBottomAmountChange = (pocket: IPocket | '') => {
     setLastTouched(LastTouched.BOTTOM);
     if (pocket) {
-      const topRate = data.rates[selectedTop.name];
-      const botRate = data.rates[selectedBottom.name];
-      setAmountTop(
-          topRate === botRate
-              ? pocket.value
-              : formatNumber(pocket.value * botRate / topRate)
-      );
+      updateTopAmount(pocket);
       setAmountBottom(pocket.value);
     } else {
-      setAmountTop(pocket);
-      setAmountBottom(pocket);
+      resetAmounts();
     }
   };
 
@@ -118,7 +136,7 @@ export const ExchangePage = () => {
         type: ADD_MONEY,
         payload: {...selectedBottom, value: amountBottom}
       });
-      resetAmounts()
+      resetAmounts();
     }
   };
 
@@ -129,7 +147,13 @@ export const ExchangePage = () => {
 
   return (
       <div className="page_container">
-        <Header exchangeOnClick={handleExchangeClick}/>
+        <Header
+            exchangeOnClick={handleExchangeClick}
+            selectedTop={selectedTop}
+            selectedBottom={selectedBottom}
+            crossRate={formatNumber(data.rates[selectedTop.name] / data.rates[selectedBottom.name], 4)}
+            disabled={!amountTop || !amountBottom}
+        />
 
         <ScrollableBlock
             afterChange={handleChangeTopPocket}
@@ -141,14 +165,16 @@ export const ExchangePage = () => {
                   pocket={pocket}
                   amount={amountTop}
                   onAmountChange={handleTopAmountChange}
-                  //kotirovki ne nad
-                  //minus sign or plus sign
+                  error={topError}
+                  amountPrefix={'-'}
+                  className="input_container_top"
               />
           ))}
         </ScrollableBlock>
         <ScrollableBlock
             afterChange={handleChangeBottomPocket}
             beforeChange={resetAmounts}
+            className="triangle"
         >
           {pockets.map((pocket, i) => (
               <InputBlock
@@ -156,6 +182,9 @@ export const ExchangePage = () => {
                   pocket={pocket}
                   amount={amountBottom}
                   onAmountChange={handleBottomAmountChange}
+                  error={bottomError}
+                  amountPrefix={'+'}
+                  className="input_container_bottom"
               />
           ))}
         </ScrollableBlock>

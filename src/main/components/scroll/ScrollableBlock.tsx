@@ -6,7 +6,7 @@ export interface IScrollableBlockProps extends Settings {
 }
 
 
-export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, ...props}) => {
+export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, className, ...props}) => {
 
   const settings: Settings = {
     dots: true,
@@ -14,7 +14,7 @@ export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, ...p
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    className: 'responsive_block',
+    className: `responsive_block ${className ? className : ''}`,
     accessibility: true,
     arrows: false,
   };
@@ -23,7 +23,6 @@ export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, ...p
       <Slider
           {...settings}
           {...props}
-          // className="responsive_block"
       >
         {children}
       </Slider>

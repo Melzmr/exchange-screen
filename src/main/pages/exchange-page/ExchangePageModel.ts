@@ -8,7 +8,9 @@ export const fetchExchangeRateApi = async (dispatch: Dispatch<exchangeRateDataTy
   // const fetchObj = abortableFetch('https://api.exchangerate-api.com/v5/latest');
   dispatch({
     type: UPDATE_EXCHANGE_RATE_DATA,
-    payload: {...MockRateData},
+    payload: {
+      ...MockRateData,
+    },
   });
   // Return MockRateData in case of error rate limiting from API.
   // const result = await getFetchJson<IExchangeRateData>(

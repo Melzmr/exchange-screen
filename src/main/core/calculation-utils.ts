@@ -1,3 +1,3 @@
-export const formatNumber = (n: number): number => {
-  return parseFloat(n.toFixed(2));
+export const formatNumber = (n: number, precise: number = 2): number => {
+  return parseFloat(n.toFixed(precise));
 };

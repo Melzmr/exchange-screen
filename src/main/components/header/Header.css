@@ -1,9 +1,45 @@
 .header_container {
+    height: 48px;
+}
+
+.header_inner_container {
     display: flex;
     justify-content: space-between;
-    background-color: green;
     position: fixed;
     top: 0;
-    min-width: inherit;
     width: 100%;
+    height: inherit;
+    align-items: center;
+}
+
+.header_currency {
+    background-color: #1449b1;
+    border: 1px solid #2d6fea;
+    border-radius: 4px;
+    padding: 8px;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.header_currency_symbol {
+    font-size: 14px;
+}
+
+.header_exchange, .header_cancel {
+    padding: 8px;
+    flex: 1;
+}
+
+.header_exchange {
+    text-align: right;
+}
+
+.header_exchange_button {
+    border: 0;
+    background-color: inherit;
+    color: inherit;
+}
+
+.header_exchange_disabled_button {
+    opacity: 40%;
 }
