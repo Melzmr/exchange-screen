@@ -1,7 +1,11 @@
 import React from 'react';
 import './Header.css';
 
-export const Header = () => {
+export interface IHeaderProps {
+  exchangeOnClick: () => void;
+}
+
+export const Header = ({exchangeOnClick}: IHeaderProps) => {
   return (
       <div style={{height: '18px'}}>
         <header className="header_container">
@@ -11,7 +15,7 @@ export const Header = () => {
           <div>
             {'Pockets'}
           </div>
-          <div>
+          <div onClick={exchangeOnClick}>
             {'Exchange'}
           </div>
         </header>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {abortableFetch, getFetchJson} from './fetch-utils';
+import {abortableFetch, getFetchJson, IAbortableFetch} from './fetch-utils';
 
 export interface IFetchApiOptions<T> {
   request: RequestInfo;

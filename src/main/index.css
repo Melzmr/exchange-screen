@@ -1,5 +1,6 @@
 @import '~normalize.css';
-@import '~react-responsive-carousel/lib/styles/carousel.min.css';
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
 
 html {
     height: 100%;
@@ -25,31 +26,19 @@ body {
     flex: 1 0 auto;
 }
 
-.carousel .control-dots {
-    padding: 0;
-}
-
-.carousel .slider-wrapper {
-    height: 100%;
-}
-
-.carousel .slider-wrapper.axis-horizontal .slider {
-    height: 100%;
-}
-
-.carousel .slide .carousel_child {
-    width: 100%;
-    vertical-align: top;
-    border: 0;
-}
-
-.carousel .carousel_child {
-    width: 100%;
-    display: inline-block;
-    pointer-events: none;
-}
-
 .responsive_block {
     display: flex;
     flex: 1 0 auto;
+}
+
+.slick-dots {
+    bottom: 10px;
+}
+
+.slick-track {
+    height: 100%;
+}
+
+.slick-slide > div {
+    height: 100%;
 }

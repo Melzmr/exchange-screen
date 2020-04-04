@@ -1,22 +1,32 @@
 import React from 'react';
-import {Carousel} from 'react-responsive-carousel';
+import Slider, {Settings} from 'react-slick';
 
-export interface IScrollableBlockProps {
+export interface IScrollableBlockProps extends Settings {
   className?: string;
 }
 
-export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, className}) => {
+
+export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, ...props}) => {
+
+  const settings: Settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    className: 'responsive_block',
+    accessibility: true,
+    arrows: false,
+  };
+
   return (
-      <Carousel
-          showArrows={false}
-          infiniteLoop={true}
-          emulateTouch={true}
-          showThumbs={false}
-          showStatus={false}
-          className="responsive_block"
+      <Slider
+          {...settings}
+          {...props}
+          // className="responsive_block"
       >
         {children}
-      </Carousel>
+      </Slider>
   );
 };
 

@@ -1,21 +1,45 @@
-import React, {CSSProperties} from 'react';
+import React from 'react';
 import './InputBlock.css'
-import {Input} from '../input/Input';
+import {IPocket} from '../../core/reducers/reducePockets';
+import {formatNumber} from '../../core/calculation-utils';
 
 export interface IInputBlockProps {
-  style: CSSProperties;
+  pocket: IPocket;
+  onAmountChange: (pocket: IPocket | '') => void;
+  amount: number | '';
 }
 
-export const InputBlock = ({style}: IInputBlockProps) => {
+export const InputBlock = ({pocket, onAmountChange, amount = 0}: IInputBlockProps) => {
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const amount = parseFloat(event.target.value);
+    if (!isNaN(amount)) {
+      onAmountChange(
+          {
+            ...pocket,
+            value: formatNumber(amount),
+          }
+      );
+    } else {
+      onAmountChange('');
+    }
+  };
+
   return (
-      <div className="input_container">
+      <div
+          className="input_container"
+      >
         <div
             className="carousel_child"
-            style={{...style, width: '100%'}}
         >
-          123123123123
+          <div>
+            {pocket.name}
+          </div>
+          <div>
+            {pocket.value}{pocket.currency}
+          </div>
+          <input type="number" step="0.01" value={amount} onChange={handleOnChange}/>
         </div>
-        {/*<Input/>*/}
       </div>
   )
 };
