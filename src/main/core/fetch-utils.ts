@@ -38,7 +38,7 @@ export const setPollingFetch = (callback: () => Promise<IAbortableFetch>, delay:
   id = window.setTimeout(tick, delay);
   return () => {
     clearInterval(id);
-    res.abort();
+    res?.abort();
   };
 };
 

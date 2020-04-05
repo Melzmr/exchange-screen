@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputBlock renders InputBlock component 1`] = `
+<div
+  className="input_block_inner_container foo"
+>
+  <div
+    className="input_block_col_left"
+  >
+    <div
+      className="input_block_name"
+    >
+      USD
+    </div>
+    <div
+      className="input_block_balance"
+    >
+      You have 
+      <span
+        className="input_block_currency_symbol"
+      >
+        $
+      </span>
+      100
+    </div>
+  </div>
+  <div
+    className="input_block_col_right"
+  >
+    <label
+      className="input_label"
+    >
+      <span
+        className="input_prefix"
+      >
+        +
+      </span>
+      <Input
+        onChange={[Function]}
+        style={
+          Object {
+            "width": "1ch",
+          }
+        }
+        value="100"
+      />
+      <div
+        className="input_block_bottom_label"
+      >
+        <span>
+          TestLabel
+        </span>
+      </div>
+    </label>
+  </div>
+</div>
+`;

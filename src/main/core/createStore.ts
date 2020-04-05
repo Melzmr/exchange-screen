@@ -28,9 +28,8 @@ export const initialAppState: IAppState = {
       currency: '€',
     }
   },
-  // TODO: Data should be null here.
   exchangeRateData: {
-    data: MockRateData,
+    data: null,
     errors: null,
   },
 };

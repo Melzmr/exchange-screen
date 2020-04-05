@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders Header component 1`] = `
+<div
+  className="header_container"
+>
+  <header
+    className="header_inner_container"
+  >
+    <div
+      className="header_cancel"
+    >
+      Cancel
+    </div>
+    <div
+      className="header_currency"
+    >
+      <span
+        className="header_currency_symbol"
+      >
+        $
+      </span>
+      1 = 
+      <span
+        className="header_currency_symbol"
+      >
+        €
+      </span>
+      0.12
+    </div>
+    <div
+      className="header_exchange"
+    >
+      <button
+        className="header_exchange_button "
+        disabled={false}
+        onClick={[MockFunction]}
+      >
+        Exchange
+      </button>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`Header renders Header component with the same pockets 1`] = `
+<div
+  className="header_container"
+>
+  <header
+    className="header_inner_container"
+  >
+    <div
+      className="header_cancel"
+    >
+      Cancel
+    </div>
+    <div
+      className="header_exchange"
+    >
+      <button
+        className="header_exchange_button "
+        disabled={false}
+        onClick={[MockFunction]}
+      >
+        Exchange
+      </button>
+    </div>
+  </header>
+</div>
+`;

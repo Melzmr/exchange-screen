@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingPage renders LoadingPage component 1`] = `
+<div
+  className="page_container"
+>
+  <div
+    className="page_content"
+  >
+    Loading
+  </div>
+</div>
+`;
