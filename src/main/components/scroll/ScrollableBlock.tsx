@@ -5,7 +5,6 @@ export interface IScrollableBlockProps extends Settings {
   className?: string;
 }
 
-
 export const ScrollableBlock: React.FC<IScrollableBlockProps> = ({children, className, ...props}) => {
 
   const settings: Settings = {

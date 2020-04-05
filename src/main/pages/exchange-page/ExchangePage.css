@@ -36,3 +36,15 @@
     background-size: cover;
     position: relative;
 }
+
+.insufficient_funds_error {
+    font-weight: bold;
+    background-color: rgb(249, 17, 85);
+    padding: 2px 4px;
+    border-radius: 2px;
+    opacity: 80%;
+}
+
+.input_block_bottom_currency {
+    opacity: 40%;
+}

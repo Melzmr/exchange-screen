@@ -33,19 +33,17 @@
 .input_prefix {
 }
 
-.input_block_name, .input_prefix, .input_block_amount {
+.input_block_name, .input_prefix {
     font-size: 36px;
-}
-
-.input_block_amount {
-    width: 100%;
-    padding: 0;
 }
 
 .input_block_balance, .input_block_bottom_label {
     font-size: 12px;
-    opacity: 40%;
     padding-top: 12px;
+}
+
+.input_block_balance {
+    opacity: 40%;
 }
 
 .input_block_currency_symbol {

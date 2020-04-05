@@ -10,8 +10,8 @@ import {ADD_MONEY, pocketsTypes, SUBTRACT_MONEY} from '../../core/actions/pocket
 import {Dispatch} from 'redux';
 import {ScrollableBlock} from '../../components/scroll/ScrollableBlock';
 import {InputBlock} from '../../components/input-block/InputBlock';
-import {formatNumber} from '../../core/calculation-utils';
-import {fetchExchangeRateApi} from './ExchangePageModel';
+import {formatNumberToString} from '../../core/calculation-utils';
+import {fetchExchangeRateApi, getCrossRate} from './ExchangePageModel';
 import {exchangeRateDataTypes} from '../../core/actions/exchangeRateDataTypes';
 import {IExchangeRateDataState} from '../../core/reducers/reduceExchangeRateData';
 import {setPollingFetch} from '../../core/fetch-utils';
@@ -22,16 +22,16 @@ export enum LastTouched {
 }
 
 export const ExchangePage = () => {
-  const pockets = Object.values(useSelector<IAppState, IPocketsState>(state => state.pockets));
+  const pockets = useSelector<IAppState, IPocketsState>(state => state.pockets);
+  const pocketsValues = Object.values(pockets);
   const {data, errors} = useSelector<IAppState, IExchangeRateDataState>(state => state.exchangeRateData);
   const dispatch = useDispatch<Dispatch<pocketsTypes | exchangeRateDataTypes>>();
-  const [selectedTop, setSelectedTop] = React.useState<IPocket>(pockets[0]);
-  const [selectedBottom, setSelectedBottom] = React.useState<IPocket>(pockets[0]);
-  const [amountTop, setAmountTop] = React.useState<number | ''>('');
-  const [amountBottom, setAmountBottom] = React.useState<number | ''>('');
+  const [selectedTop, setSelectedTop] = React.useState<IPocket>(pocketsValues[0]);
+  const [selectedBottom, setSelectedBottom] = React.useState<IPocket>(pocketsValues[0]);
+  const [amountTop, setAmountTop] = React.useState<string | ''>('');
+  const [amountBottom, setAmountBottom] = React.useState<string | ''>('');
   const [lastTouched, setLastTouched] = React.useState<LastTouched>(LastTouched.TOP);
-  const [topError, setTopError] = React.useState<string>();
-  const [bottomError, setBottomError] = React.useState<string>();
+  const [insufficientFundsError, setInsufficientFundsError] = React.useState(false);
 
   React.useEffect(() => {
         const abortFetch = setPollingFetch(() => fetchExchangeRateApi(dispatch), 10000);
@@ -39,6 +39,11 @@ export const ExchangePage = () => {
       },
       [dispatch]
   );
+
+  React.useEffect(() => {
+    setSelectedTop((prevPocket) => pockets[prevPocket.name]);
+    setSelectedBottom((prevPocket) => pockets[prevPocket.name]);
+  }, [pockets]);
 
   React.useEffect(() => {
     if (amountTop && amountBottom) {
@@ -56,14 +61,6 @@ export const ExchangePage = () => {
     }
   }, [data]);
 
-  if (!data) {
-    return (
-        <LoadingPage>
-          {'Loading'}
-        </LoadingPage>
-    )
-  }
-
   if (errors) {
     return (
         <ErroredPage>
@@ -72,44 +69,55 @@ export const ExchangePage = () => {
     )
   }
 
-  const crossRate = formatNumber(data.rates[selectedTop.name] / data.rates[selectedBottom.name], 4);
+  if (!data) {
+    return (
+        <LoadingPage>
+          {'Loading'}
+        </LoadingPage>
+    )
+  }
+
+  const crossRate = getCrossRate(selectedTop, selectedBottom, data.rates, data.base);
 
   const updateTopAmount = (pocket: IPocket) => {
     const topRate = data.rates[selectedTop.name];
     const botRate = data.rates[selectedBottom.name];
-    if (topRate === botRate) {
+    const parsedAmount = parseFloat(pocket.value);
+    if (topRate === botRate || isNaN(parsedAmount)) {
       setAmountTop(pocket.value);
     } else if (pocket.name === data.base) {
-      setAmountTop(pocket.value * topRate);
+      setAmountTop(formatNumberToString(parsedAmount * topRate));
     } else {
-      setAmountTop(formatNumber(pocket.value * botRate / topRate))
+      setAmountTop(formatNumberToString(parsedAmount * topRate / botRate))
     }
   };
 
   const updateBottomAmount = (pocket: IPocket) => {
     const topRate = data.rates[selectedTop.name];
     const botRate = data.rates[selectedBottom.name];
-    if (topRate === botRate) {
+    const parsedAmount = parseFloat(pocket.value);
+    if (topRate === botRate || isNaN(parsedAmount)) {
       setAmountBottom(pocket.value);
     } else if (pocket.name === data.base) {
-      setAmountBottom(pocket.value * botRate);
+      setAmountBottom(formatNumberToString(parsedAmount * botRate));
     } else {
-      setAmountBottom(formatNumber(pocket.value * topRate / botRate));
+      setAmountBottom(formatNumberToString(parsedAmount * botRate / topRate));
     }
   };
 
-  const handleChangeTopPocket = (slide: number) => {
+  const handleChangeTopPocket = (pocketIndex: number) => {
     resetAmounts();
-    setSelectedTop(pockets[slide]);
+    setSelectedTop(pocketsValues[pocketIndex]);
   };
 
-  const handleChangeBottomPocket = (slide: number) => {
+  const handleChangeBottomPocket = (pocketIndex: number) => {
     resetAmounts();
-    setSelectedBottom(pockets[slide]);
+    setSelectedBottom(pocketsValues[pocketIndex]);
   };
 
   const handleTopAmountChange = (pocket: IPocket | '') => {
     setLastTouched(LastTouched.TOP);
+    setInsufficientFundsError(false);
     if (pocket) {
       updateBottomAmount(pocket);
       setAmountTop(pocket.value);
@@ -120,6 +128,7 @@ export const ExchangePage = () => {
 
   const handleBottomAmountChange = (pocket: IPocket | '') => {
     setLastTouched(LastTouched.BOTTOM);
+    setInsufficientFundsError(false);
     if (pocket) {
       updateTopAmount(pocket);
       setAmountBottom(pocket.value);
@@ -130,6 +139,10 @@ export const ExchangePage = () => {
 
   const handleExchangeClick = () => {
     if (amountTop && amountBottom) {
+      if (parseFloat(amountTop) > parseFloat(selectedTop.value)) {
+        setInsufficientFundsError(true);
+        return;
+      }
       dispatch({
         type: SUBTRACT_MONEY,
         payload: {...selectedTop, value: amountTop}
@@ -143,6 +156,7 @@ export const ExchangePage = () => {
   };
 
   const resetAmounts = () => {
+    setInsufficientFundsError(false);
     setAmountTop('');
     setAmountBottom('');
   };
@@ -162,13 +176,17 @@ export const ExchangePage = () => {
             beforeChange={resetAmounts}
             className="input_container_top"
         >
-          {pockets.map((pocket, i) => (
+          {pocketsValues.map((pocket, i) => (
               <InputBlock
                   key={i}
                   pocket={pocket}
                   amount={amountTop}
                   onAmountChange={handleTopAmountChange}
-                  error={topError}
+                  bottomLabel={insufficientFundsError && (
+                      <span className="insufficient_funds_error">
+                        {'Insufficient funds'}
+                      </span>
+                  )}
                   amountPrefix={'-'}
               />
           ))}
@@ -178,25 +196,24 @@ export const ExchangePage = () => {
             beforeChange={resetAmounts}
             className="triangle input_container_bottom"
         >
-          {pockets.map((pocket, i) => (
+          {pocketsValues.map((pocket, i) => (
               <InputBlock
                   key={i}
                   pocket={pocket}
                   amount={amountBottom}
                   onAmountChange={handleBottomAmountChange}
-                  error={bottomError}
                   amountPrefix={'+'}
-                  bottomLabel={(
-                      <>
-                        <span className="">
+                  bottomLabel={selectedTop.name !== selectedBottom.name && (
+                      <span className="input_block_bottom_currency">
+                        <span className="input_block_currency_symbol">
                           {selectedTop.currency}
                         </span>
                         {'1 = '}
-                        <span className="">
+                        <span className="input_block_currency_symbol">
                           {selectedBottom.currency}
                         </span>
                         {crossRate}
-                      </>
+                      </span>
                   )}
               />
           ))}

@@ -5,6 +5,10 @@ import {
   UPDATE_EXCHANGE_RATE_DATA
 } from '../actions/exchangeRateDataTypes';
 
+export interface IRatesData {
+  [key: string]: number
+}
+
 export interface IExchangeRateData {
   'documentation': string;
   'terms_of_use': string;
@@ -13,9 +17,7 @@ export interface IExchangeRateData {
   'time_next_update': number;
   'time_eol': number;
   'base': string;
-  'rates': {
-    [key: string]: number;
-  };
+  'rates': IRatesData;
 }
 
 export interface IExchangeRateDataState {

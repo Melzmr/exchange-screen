@@ -1,6 +1,5 @@
 import {combineReducers, createStore, Store} from 'redux';
 import {IPocketsState, reducePockets} from './reducers/reducePockets';
-import {MockRateData} from '../pages/exchange-page/MockRateData';
 import {IExchangeRateDataState, reduceExchangeRateData} from './reducers/reduceExchangeRateData';
 import {pocketsTypes} from './actions/pocketsTypes';
 import {exchangeRateDataTypes} from './actions/exchangeRateDataTypes';
@@ -14,23 +13,23 @@ export const initialAppState: IAppState = {
   pockets: {
     'USD': {
       name: 'USD',
-      value: 100,
+      value: '100.00',
       currency: '$',
     },
     'GBP': {
       name: 'GBP',
-      value: 50,
+      value: '50.00',
       currency: '£',
     },
     'EUR': {
       name: 'EUR',
-      value: 20,
+      value: '20.00',
       currency: '€',
     }
   },
   // TODO: Data should be null here.
   exchangeRateData: {
-    data: MockRateData,
+    data: null,
     errors: null,
   },
 };

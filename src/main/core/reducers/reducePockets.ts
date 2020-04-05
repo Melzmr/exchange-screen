@@ -1,10 +1,10 @@
 import {initialAppState} from '../createStore';
 import {ADD_MONEY, pocketsTypes, SUBTRACT_MONEY} from '../actions/pocketsTypes';
-import {formatNumber} from '../calculation-utils';
+import {formatNumberToString} from '../calculation-utils';
 
 export interface IPocket {
   name: string;
-  value: number;
+  value: string;
   currency: string;
 }
 
@@ -12,14 +12,14 @@ export interface IPocketsState {
   [key: string]: IPocket;
 }
 
-export const reducePockets = (state: IPocketsState = initialAppState.pockets, action: pocketsTypes) => {
+export const reducePockets = (state: IPocketsState = initialAppState.pockets, action: pocketsTypes): IPocketsState => {
   switch (action.type) {
     case ADD_MONEY:
       return {
         ...state,
         [action.payload.name]: {
           ...action.payload,
-          value: formatNumber(state[action.payload.name].value + action.payload.value),
+          value: formatNumberToString(parseFloat(state[action.payload.name].value) + parseFloat(action.payload.value)),
         },
       };
     case SUBTRACT_MONEY:
@@ -27,7 +27,7 @@ export const reducePockets = (state: IPocketsState = initialAppState.pockets, ac
         ...state,
         [action.payload.name]: {
           ...action.payload,
-          value: formatNumber(state[action.payload.name].value - action.payload.value),
+          value: formatNumberToString(parseFloat(state[action.payload.name].value) - parseFloat(action.payload.value)),
         },
       };
     default:
