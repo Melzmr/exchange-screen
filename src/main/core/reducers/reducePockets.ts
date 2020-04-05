@@ -13,23 +13,18 @@ export interface IPocketsState {
 }
 
 export const reducePockets = (state: IPocketsState = initialAppState.pockets, action: pocketsTypes): IPocketsState => {
+  state = {...state};
   switch (action.type) {
     case ADD_MONEY:
-      return {
-        ...state,
-        [action.payload.name]: {
-          ...action.payload,
-          value: formatNumberToString(parseFloat(state[action.payload.name].value) + parseFloat(action.payload.value)),
-        },
-      };
+      state[action.payload.name].value = formatNumberToString(
+          parseFloat(state[action.payload.name].value) + parseFloat(action.payload.value)
+      );
+      return state;
     case SUBTRACT_MONEY:
-      return {
-        ...state,
-        [action.payload.name]: {
-          ...action.payload,
-          value: formatNumberToString(parseFloat(state[action.payload.name].value) - parseFloat(action.payload.value)),
-        },
-      };
+      state[action.payload.name].value = formatNumberToString(
+          parseFloat(state[action.payload.name].value) - parseFloat(action.payload.value)
+      );
+      return state;
     default:
       return state;
   }

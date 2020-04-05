@@ -25,7 +25,7 @@ export const InputBlock = ({pocket, onAmountChange, amount, amountPrefix, classN
   }, [amount]);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const validFloat = event.target.value.match(/^[0-9]{0,4}[.]?[0-9]{0,2}/)?.[0];
+    const validFloat = event.target.value.match(/^[0-9]{0,4}[.,]?[0-9]{0,2}/)?.[0].replace(',', '.');
     if (validFloat) {
       onAmountChange(
           {

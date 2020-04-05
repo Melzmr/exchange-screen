@@ -14,8 +14,7 @@ export const Input = ({value, onChange, style}: IInputProps) => (
         style={style}
         value={value}
         onChange={onChange}
-        inputMode="numeric"
-        pattern="[0-9]*"
+        inputMode="decimal"
     />
 );
 

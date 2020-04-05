@@ -3,9 +3,8 @@
 exports[`Input renders Input component 1`] = `
 <input
   className="input_base"
-  inputMode="numeric"
+  inputMode="decimal"
   onChange={[MockFunction]}
-  pattern="[0-9]*"
   style={Object {}}
   type="text"
   value="100.00"

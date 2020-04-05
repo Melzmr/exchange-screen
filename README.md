@@ -1,3 +1,5 @@
+## [Live demo is here](https://melzmr.github.io/exchange-screen/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
