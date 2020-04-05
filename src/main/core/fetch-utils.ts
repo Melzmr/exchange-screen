@@ -13,7 +13,7 @@ export const abortableFetch = (request: RequestInfo, options?: RequestInit): IAb
   };
 };
 
-export const getFetchJson = async <T>(promise: Promise<Response>, onError: (error: Error) => void): Promise<T | undefined> => {
+export const getFetchJson = async <T>(promise: Promise<Response>, onError: (error: Error) => void): Promise<T | void> => {
   return await promise
       .then((res) => {
         if (res.ok) {
@@ -22,7 +22,7 @@ export const getFetchJson = async <T>(promise: Promise<Response>, onError: (erro
           throw new Error(`Failed to fetch ${res.url}.`)
         }
       })
-      .then((data) => data)
+      .then((data: T) => data)
       .catch((error: Error) => {
         onError(error)
       });
@@ -33,9 +33,9 @@ export const setPollingFetch = (callback: () => Promise<IAbortableFetch>, delay:
   let res: IAbortableFetch;
   async function tick() {
     res = await callback();
-    id = setTimeout(tick, delay) as unknown as number;
+    id = window.setTimeout(tick, delay);
   }
-  id = setTimeout(tick, delay) as unknown as number;
+  id = window.setTimeout(tick, delay);
   return () => {
     clearInterval(id);
     res.abort();

@@ -42,9 +42,9 @@
     background-color: rgb(249, 17, 85);
     padding: 2px 4px;
     border-radius: 2px;
-    opacity: 80%;
+    opacity: 0.8;
 }
 
 .input_block_bottom_currency {
-    opacity: 40%;
+    opacity: 0.4;
 }

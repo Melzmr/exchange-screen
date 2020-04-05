@@ -6,7 +6,7 @@ import {Input} from '../input/Input';
 export interface IInputBlockProps {
   pocket: IPocket;
   onAmountChange: (pocket: IPocket | '') => void;
-  amount: string | '';
+  amount: string;
   amountPrefix?: string;
   className?: string;
   bottomLabel?: React.ReactNode;
@@ -56,9 +56,9 @@ export const InputBlock = ({pocket, onAmountChange, amount, amountPrefix, classN
                 </span>
             )}
             <Input
-              style={{width: inputWidth + 'ch'}}
-              value={amount}
-              onChange={handleOnChange}
+                style={{width: inputWidth + 'ch'}}
+                value={amount}
+                onChange={handleOnChange}
             />
             {bottomLabel && (
                 <div className="input_block_bottom_label">

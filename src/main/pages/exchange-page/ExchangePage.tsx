@@ -10,8 +10,8 @@ import {ADD_MONEY, pocketsTypes, SUBTRACT_MONEY} from '../../core/actions/pocket
 import {Dispatch} from 'redux';
 import {ScrollableBlock} from '../../components/scroll/ScrollableBlock';
 import {InputBlock} from '../../components/input-block/InputBlock';
-import {formatNumberToString} from '../../core/calculation-utils';
-import {fetchExchangeRateApi, getCrossRate} from './ExchangePageModel';
+import {formatNumberToString, getCrossRate} from '../../core/calculation-utils';
+import {fetchExchangeRateApi} from './ExchangePageModel';
 import {exchangeRateDataTypes} from '../../core/actions/exchangeRateDataTypes';
 import {IExchangeRateDataState} from '../../core/reducers/reduceExchangeRateData';
 import {setPollingFetch} from '../../core/fetch-utils';
@@ -28,17 +28,15 @@ export const ExchangePage = () => {
   const dispatch = useDispatch<Dispatch<pocketsTypes | exchangeRateDataTypes>>();
   const [selectedTop, setSelectedTop] = React.useState<IPocket>(pocketsValues[0]);
   const [selectedBottom, setSelectedBottom] = React.useState<IPocket>(pocketsValues[0]);
-  const [amountTop, setAmountTop] = React.useState<string | ''>('');
-  const [amountBottom, setAmountBottom] = React.useState<string | ''>('');
+  const [amountTop, setAmountTop] = React.useState<string>('');
+  const [amountBottom, setAmountBottom] = React.useState<string>('');
   const [lastTouched, setLastTouched] = React.useState<LastTouched>(LastTouched.TOP);
   const [insufficientFundsError, setInsufficientFundsError] = React.useState(false);
 
   React.useEffect(() => {
-        const abortFetch = setPollingFetch(() => fetchExchangeRateApi(dispatch), 10000);
-        return () => abortFetch()
-      },
-      [dispatch]
-  );
+    const abortFetch = setPollingFetch(() => fetchExchangeRateApi(dispatch), 10000);
+    return () => abortFetch()
+  }, [dispatch]);
 
   React.useEffect(() => {
     setSelectedTop((prevPocket) => pockets[prevPocket.name]);
@@ -59,6 +57,7 @@ export const ExchangePage = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   if (errors) {
@@ -79,7 +78,7 @@ export const ExchangePage = () => {
 
   const crossRate = getCrossRate(selectedTop, selectedBottom, data.rates, data.base);
 
-  const updateTopAmount = (pocket: IPocket) => {
+  const updateTopAmount = (pocket: IPocket): void => {
     const topRate = data.rates[selectedTop.name];
     const botRate = data.rates[selectedBottom.name];
     const parsedAmount = parseFloat(pocket.value);
@@ -92,7 +91,7 @@ export const ExchangePage = () => {
     }
   };
 
-  const updateBottomAmount = (pocket: IPocket) => {
+  const updateBottomAmount = (pocket: IPocket): void => {
     const topRate = data.rates[selectedTop.name];
     const botRate = data.rates[selectedBottom.name];
     const parsedAmount = parseFloat(pocket.value);
@@ -105,20 +104,20 @@ export const ExchangePage = () => {
     }
   };
 
-  const handleChangeTopPocket = (pocketIndex: number) => {
+  const handleChangeTopPocket = (pocketIndex: number): void => {
     resetAmounts();
     setSelectedTop(pocketsValues[pocketIndex]);
   };
 
-  const handleChangeBottomPocket = (pocketIndex: number) => {
+  const handleChangeBottomPocket = (pocketIndex: number): void => {
     resetAmounts();
     setSelectedBottom(pocketsValues[pocketIndex]);
   };
 
-  const handleTopAmountChange = (pocket: IPocket | '') => {
+  const handleTopAmountChange = (pocket: IPocket | ''): void => {
     setLastTouched(LastTouched.TOP);
-    setInsufficientFundsError(false);
     if (pocket) {
+      setInsufficientFundsError(false);
       updateBottomAmount(pocket);
       setAmountTop(pocket.value);
     } else {
@@ -126,10 +125,10 @@ export const ExchangePage = () => {
     }
   };
 
-  const handleBottomAmountChange = (pocket: IPocket | '') => {
+  const handleBottomAmountChange = (pocket: IPocket | ''): void => {
     setLastTouched(LastTouched.BOTTOM);
-    setInsufficientFundsError(false);
     if (pocket) {
+      setInsufficientFundsError(false);
       updateTopAmount(pocket);
       setAmountBottom(pocket.value);
     } else {
@@ -137,7 +136,7 @@ export const ExchangePage = () => {
     }
   };
 
-  const handleExchangeClick = () => {
+  const handleExchangeClick = (): void => {
     if (amountTop && amountBottom) {
       if (parseFloat(amountTop) > parseFloat(selectedTop.value)) {
         setInsufficientFundsError(true);
@@ -182,12 +181,12 @@ export const ExchangePage = () => {
                   pocket={pocket}
                   amount={amountTop}
                   onAmountChange={handleTopAmountChange}
+                  amountPrefix={'-'}
                   bottomLabel={insufficientFundsError && (
                       <span className="insufficient_funds_error">
                         {'Insufficient funds'}
                       </span>
                   )}
-                  amountPrefix={'-'}
               />
           ))}
         </ScrollableBlock>
@@ -218,6 +217,7 @@ export const ExchangePage = () => {
               />
           ))}
         </ScrollableBlock>
+
       </div>
   );
 };

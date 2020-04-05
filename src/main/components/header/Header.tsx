@@ -6,7 +6,7 @@ export interface IHeaderProps {
   exchangeOnClick: () => void;
   selectedTop: IPocket;
   selectedBottom: IPocket;
-  crossRate: number;
+  crossRate: string;
   disabled: boolean;
 }
 
@@ -22,7 +22,7 @@ export const Header = ({exchangeOnClick, selectedTop, selectedBottom, crossRate,
                   {selectedTop.currency}
                 </span>
               {'1 = '}
-              <span className="header_currency_symbol">
+                <span className="header_currency_symbol">
                   {selectedBottom.currency}
                 </span>
               {crossRate}
@@ -31,7 +31,8 @@ export const Header = ({exchangeOnClick, selectedTop, selectedBottom, crossRate,
         <div className="header_exchange">
           <button
               className={`header_exchange_button ${disabled ? 'header_exchange_disabled_button' : ''}`}
-              onClick={disabled ? undefined : exchangeOnClick}
+              onClick={exchangeOnClick}
+              disabled={disabled}
           >
             {'Exchange'}
           </button>

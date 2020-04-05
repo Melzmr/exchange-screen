@@ -30,9 +30,6 @@
     text-align: right;
 }
 
-.input_prefix {
-}
-
 .input_block_name, .input_prefix {
     font-size: 36px;
 }
@@ -43,7 +40,7 @@
 }
 
 .input_block_balance {
-    opacity: 40%;
+    opacity: 0.4;
 }
 
 .input_block_currency_symbol {

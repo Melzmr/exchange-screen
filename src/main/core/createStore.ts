@@ -3,6 +3,7 @@ import {IPocketsState, reducePockets} from './reducers/reducePockets';
 import {IExchangeRateDataState, reduceExchangeRateData} from './reducers/reduceExchangeRateData';
 import {pocketsTypes} from './actions/pocketsTypes';
 import {exchangeRateDataTypes} from './actions/exchangeRateDataTypes';
+import {MockRateData} from '../pages/exchange-page/MockRateData';
 
 export interface IAppState {
   pockets: IPocketsState;
@@ -29,7 +30,7 @@ export const initialAppState: IAppState = {
   },
   // TODO: Data should be null here.
   exchangeRateData: {
-    data: null,
+    data: MockRateData,
     errors: null,
   },
 };
