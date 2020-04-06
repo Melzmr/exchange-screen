@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import {ErroredPage} from '../../main/pages/errored-page/ErroredPage';
 
 describe('LoadingPage', () => {
-  let comp;
+  let comp: React.ReactElement;
 
   beforeEach(() => {
     comp = (

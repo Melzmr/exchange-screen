@@ -3,8 +3,8 @@ import {shallow} from 'enzyme';
 import {Input} from '../../main/components/input/Input';
 
 describe('Input', () => {
-  let comp;
-  let fn;
+  let comp: React.ReactElement;
+  let fn: jest.Mock;
 
   beforeEach(() => {
     fn = jest.fn();

@@ -4,7 +4,7 @@ import {ErroredPage} from '../../main/pages/errored-page/ErroredPage';
 import React from 'react';
 
 describe('ErroredPage', () => {
-  let comp;
+  let comp: React.ReactElement;
 
   beforeEach(() => {
     comp = (

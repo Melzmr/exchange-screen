@@ -1,10 +1,10 @@
 import {initialAppState} from '../../main/core/createStore';
-import {reducePockets} from '../../main/core/reducers/reducePockets';
-import {ADD_MONEY, SUBTRACT_MONEY} from '../../main/core/actions/pocketsTypes';
+import {IPocket, IPocketsState, reducePockets} from '../../main/core/reducers/reducePockets';
+import {ADD_MONEY, pocketsTypes, SUBTRACT_MONEY} from '../../main/core/actions/pocketsTypes';
 
 describe('reducePockets', () => {
-  let initialPocketState;
-  let newPocket;
+  let initialPocketState: IPocketsState;
+  let newPocket: IPocket;
 
   beforeEach(() => {
     initialPocketState = {
@@ -23,7 +23,7 @@ describe('reducePockets', () => {
   });
 
   it('sets initial state', () => {
-    expect(reducePockets(undefined, {})).toEqual(initialAppState.pockets);
+    expect(reducePockets(undefined, {} as pocketsTypes)).toEqual(initialAppState.pockets);
   });
 
   it('adds money', () => {

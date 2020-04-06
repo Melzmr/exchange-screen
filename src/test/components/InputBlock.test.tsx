@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import {InputBlock} from '../../main/components/input-block/InputBlock';
 
 describe('InputBlock', () => {
-  let comp;
+  let comp: React.ReactElement;
   let fn;
 
   beforeEach(() => {
@@ -54,7 +54,7 @@ describe('InputBlock', () => {
 
   it('adds classname to container', () => {
     const {container} = render(comp);
-    expect(container.firstChild.classList.contains('foo')).toBeTruthy();
+    expect((container.firstChild as any).classList.contains('foo')).toBeTruthy();
   });
 
 });

@@ -4,8 +4,8 @@ import {Header} from '../../main/components/header/Header';
 import {shallow} from 'enzyme';
 
 describe('Header', () => {
-  let comp;
-  let fn;
+  let comp: React.ReactElement;
+  let fn: jest.Mock;
 
   beforeEach(() => {
     fn = jest.fn();

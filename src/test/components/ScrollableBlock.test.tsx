@@ -3,7 +3,7 @@ import {shallow} from 'enzyme';
 import {ScrollableBlock} from '../../main/components/scroll/ScrollableBlock';
 
 describe('ScrollableBlock', () => {
-  let comp;
+  let comp: React.ReactElement;
 
   beforeEach(() => {
     comp = <ScrollableBlock/>;
